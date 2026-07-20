@@ -8,13 +8,17 @@ import Metric from "@site/src/components/Metric";
 
 # Growth Stability Index
 
-The Growth Stability Index (GSI) dynamically adjusts Atto's distribution rate based on market conditions. The current GSI is **<Metric name="distribution.growth-stability-index" />**, meaning distribution rates are adjusted to this factor. It balances widespread token distribution with price stability, ensuring Atto remains practical as digital cash.
+The published Growth Stability Index (GSI) design scales configured Atto distribution rates in response to market data. The displayed GSI is **<Metric name="distribution.growth-stability-index" />**. Figures refresh from [Atto's metrics service](/metrics) when available; otherwise the page shows its last cached values. In the published design, a covered route's configured base rate is multiplied by the GSI. Which routes are currently covered, together with the applied configuration and update cadence, must be confirmed from current operational records before relying on them.
+
+:::note Scope of the GSI
+The GSI paces the release of pre-created Atto and is intended to seek lower expected volatility than a fixed release schedule. It does not create a peg, price floor or band, reserve, redemption right, guaranteed liquidity, or guaranteed price outcome.
+:::
 
 <GsiChart />
 
 ## How It Works
 
-The GSI is a value between a configured minimum (typically 0.10) and 1.0 that represents the current market position relative to recent price history. It is calculated using three key price metrics:
+In the published design, the GSI is a value between a configured minimum (described as typically 0.10) and 1.0 that represents the market position relative to recent price history. The design uses three price metrics:
 
 - **7-Day Average Price**: A smoothed price that reduces noise from short-term fluctuations
 - **All-Time High (ATH)**: The highest price Atto has ever reached
@@ -26,18 +30,18 @@ The GSI is a value between a configured minimum (typically 0.10) and 1.0 that re
 GSI = (7-Day Average Price - 1-Month Low) / (ATH - 1-Month Low)
 ```
 
-This formula positions the current price on a scale from 0 to 1:
+This formula positions a market-price input on a scale from 0 to 1:
 - **GSI near 0**: Price is close to the 1-month low (bearish conditions)
 - **GSI near 1**: Price is close to the all-time high (bullish conditions)
 
 ## Asymmetric Adjustment
 
-A key feature of the GSI is its **asymmetric adjustment mechanism**:
+A key feature of the published GSI design is its **asymmetric adjustment mechanism**:
 
-- **Downward adjustments are instant**: When market conditions worsen, the GSI drops immediately to the target value
-- **Upward adjustments are capped**: When conditions improve, the GSI can only increase by a maximum of 0.01 per update cycle
+- **Target decreases**: The design applies a lower target value on the next update
+- **Target increases**: The design caps an increase at 0.01 per update
 
-This asymmetry serves an important purpose: it allows the system to **quickly reduce distribution** when prices fall (protecting against selling pressure), while **gradually increasing distribution** when prices rise (preventing overheating during rallies).
+This asymmetry is intended to **reduce covered distribution rates quickly** after lower price readings while **restoring them gradually** after higher readings. The current update cadence and applied parameters require confirmation from current operational records.
 
 ### Example
 
@@ -45,32 +49,29 @@ Consider a scenario where:
 - Current GSI: 0.50
 - Market rallies, target GSI becomes: 0.80
 
-Instead of jumping to 0.80, the GSI will increase gradually:
+Under the published design, instead of jumping to 0.80, the GSI would increase gradually:
 - Update 1: 0.50 → 0.51
 - Update 2: 0.51 → 0.52
 - ... and so on
 
-However, if the market then crashes and the target GSI drops to 0.30:
-- The GSI immediately adjusts: 0.52 → 0.30
+If a later price reading instead produces a target of 0.30:
+- The design applies the lower target on the next update: 0.52 → 0.30
 
 ## Impact on Distribution
 
-The GSI directly influences the rate at which new Atto enters circulation through mining, staking rewards, and other regular distribution programs. When the GSI is:
+Under the published design, the GSI influences the rate at which existing Atto enters circulation through covered distribution programmes. Current programme mappings must be confirmed from operational records. For a route that is covered by the design:
 
-- **High (closer to 1.0)**: Distribution rates can be higher, as market conditions support additional supply
-- **Low (closer to minimum)**: Distribution rates are reduced to minimize selling pressure during weak market conditions
+- **High (closer to 1.0)**: Covered distribution rates can be closer to their configured base rates
+- **Low (closer to the configured minimum)**: Covered distribution rates are scaled down further
 
-This creates a self-regulating system where:
-1. Strong markets allow for faster distribution, accelerating adoption
-2. Weak markets trigger reduced distribution, supporting price stability
-3. The asymmetric adjustment prevents rapid oscillation between states
+The asymmetric adjustment is designed to limit how quickly covered rates can rise after a reduction.
 
-## Why GSI Matters
+## What the GSI Provides
 
-The GSI embodies Atto's commitment to being **usable money**, not just a speculative asset. By dynamically adjusting distribution based on market conditions:
+As a published design, the GSI provides a consistent, visible input for covered distribution routes:
 
-- **Users gain confidence**: Knowing that distribution responds to market conditions reduces fear of sudden supply floods
-- **Volatility is dampened**: The asymmetric mechanism naturally smooths out boom-bust cycles
-- **Long-term adoption is prioritized**: Gradual, stable growth is favored over short-term hype
+- **Responsive settings**: Covered rates respond to the price metrics used in the formula
+- **Bounded scaling**: The configured minimum and maximum constrain the multiplier
+- **Gradual recovery**: The upward adjustment cap slows increases after rates have fallen
 
-For more details on Atto's distribution strategy, see the [Distribution](/docs/distribution) page and the blog post on [A New Distribution Strategy](/blog/new-distribution-strategy).
+For more details on Atto's distribution strategy, see the [Distribution](/docs/distribution) page and the [historical August 2025 strategy article](/blog/new-distribution-strategy).

@@ -41,7 +41,7 @@ The technical overview of Atto's consensus, account-chain model, supply, and sec
 - Representative voting rather than competitive proof-of-work mining for consensus
 
 ### [Token Distribution](/docs/distribution)
-How Atto enters circulation through the faucet, Folding@Home mining, staking rewards, and contribution rewards. Rates and eligibility follow the current reward policy. The published [Growth Stability Index (GSI)](/docs/growth-stability-index) design can scale configured rates; current route mappings require operational confirmation.
+How Atto enters circulation through the faucet, Folding@Home mining, staking rewards, and contribution rewards. Rates and eligibility follow the current reward policy. The [Growth Stability Index (GSI)](/docs/growth-stability-index) adjusts configured rates for distribution programmes that use it.
 
 - Faucet for new users
 - Folding@Home mining for research contributors
@@ -133,8 +133,9 @@ The full 18 billion ATTO supply was created at genesis. No new coins can be mint
 - **[Explorer](/explorer)** - Real-time network activity
 - **[Discord](https://discord.gg/atto)** - Join the community
 - **[GitHub](https://github.com/attocash)** - Contribute to the codebase
-<!-- Revalidation owner: Atto documentation maintainers; recheck the venue link and status before each documentation release. -->
-- **[XT ATTO/USDT market page](https://www.xt.com/en/trade/atto_usdt)** - Third-party venue page (link checked 20 July 2026); services, regional availability, fees, and status are controlled by XT and can change
+<!-- Revalidation owner: Atto documentation maintainers; recheck both venue links and statuses before each documentation release. -->
+- **[XT ATTO/USDT](https://www.xt.com/en/trade/atto_usdt)** - Third-party market; availability and status are controlled by XT and may change
+- **[LCX ATTO/EUR](https://lcx.com/en/trade/ATTO-EUR)** - Third-party market; availability and status are controlled by LCX and may change
 
 ## Important Information
 
